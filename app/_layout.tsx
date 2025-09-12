@@ -1,7 +1,6 @@
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -11,8 +10,18 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerBackTitle: "返回", // 默认返回按钮文字
+          gestureEnabled: true, // 启用手势返回
+          gestureDirection: 'horizontal', // 水平手势方向
         }}
+        initialRouteName="(tabs)"
       >
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false,
+            gestureEnabled: false, // 禁用手势返回
+          }}
+        />
         <Stack.Screen
           name="index"
           options={{
@@ -46,7 +55,6 @@ export default function RootLayout() {
         />
         <Stack.Screen name="+not-found" />
       </Stack>
-      <StatusBar style="auto" />
     </ThemeProvider>
   );
 }

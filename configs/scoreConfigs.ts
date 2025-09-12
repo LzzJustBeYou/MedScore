@@ -10,6 +10,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'age',
         label: '年龄',
         type: 'number',
+        numberType: 'integer',
         required: true,
         unit: '岁',
         validation: { min: 0, max: 120 }
@@ -18,6 +19,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'temperature',
         label: '体温',
         type: 'number',
+        numberType: 'decimal',
         required: true,
         unit: '°C',
         validation: { min: 30, max: 45 }
@@ -26,6 +28,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'meanArterialPressure',
         label: '平均动脉压',
         type: 'number',
+        numberType: 'integer',
         required: true,
         unit: 'mmHg',
         validation: { min: 40, max: 200 }
@@ -34,6 +37,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'heartRate',
         label: '心率',
         type: 'number',
+        numberType: 'integer',
         required: true,
         unit: '次/分',
         validation: { min: 40, max: 200 }
@@ -42,6 +46,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'respiratoryRate',
         label: '呼吸频率',
         type: 'number',
+        numberType: 'integer',
         required: true,
         unit: '次/分',
         validation: { min: 5, max: 60 }
@@ -63,6 +68,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'arterialPh',
         label: '动脉血 pH',
         type: 'number',
+        numberType: 'decimal',
         required: true,
         validation: { min: 6.5, max: 8.0 }
       },
@@ -70,6 +76,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'serumSodium',
         label: '血清钠',
         type: 'number',
+        numberType: 'integer',
         required: true,
         unit: 'mEq/L',
         validation: { min: 110, max: 180 }
@@ -78,6 +85,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'serumPotassium',
         label: '血清钾',
         type: 'number',
+        numberType: 'decimal',
         required: true,
         unit: 'mEq/L',
         validation: { min: 2.0, max: 8.0 }
@@ -86,6 +94,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'serumCreatinine',
         label: '血清肌酐',
         type: 'number',
+        numberType: 'decimal',
         required: true,
         unit: 'mg/dL',
         validation: { min: 0.0, max: 10.0 }
@@ -94,6 +103,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'hematocrit',
         label: '血细胞比容',
         type: 'number',
+        numberType: 'integer',
         required: true,
         unit: '%',
         validation: { min: 10, max: 70 }
@@ -102,6 +112,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'whiteBloodCellCount',
         label: '白细胞计数',
         type: 'number',
+        numberType: 'decimal',
         required: true,
         unit: '×10³/μL',
         validation: { min: 0, max: 100 }
@@ -110,6 +121,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'glasgowComaScale',
         label: '格拉斯哥昏迷评分',
         type: 'number',
+        numberType: 'integer',
         required: true,
         unit: '分',
         validation: { min: 3, max: 15 }
@@ -146,6 +158,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'totalBilirubin',
         label: '总胆红素',
         type: 'number',
+        numberType: 'decimal',
         required: true,
         unit: 'mg/dL',
         validation: { min: 0, max: 50 }
@@ -154,6 +167,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'albumin',
         label: '白蛋白',
         type: 'number',
+        numberType: 'decimal',
         required: true,
         unit: 'g/dL',
         validation: { min: 1.0, max: 5.0 }
@@ -162,6 +176,7 @@ export const scoreConfigs: ScoreConfig[] = [
         id: 'prothrombinTime',
         label: '凝血酶原时间延长',
         type: 'number',
+        numberType: 'decimal',
         required: true,
         unit: '秒',
         validation: { min: 0, max: 20 }

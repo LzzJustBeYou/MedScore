@@ -3,15 +3,39 @@ import { ScoringRecord } from '../types';
 
 class Database {
   private db: SQLite.SQLiteDatabase | null = null;
+  private isInitialized: boolean = false;
 
   async init(): Promise<void> {
+    if (this.isInitialized && this.db) {
+      return; // 已经初始化过了
+    }
+
     try {
+      console.log('开始初始化数据库...');
       this.db = await SQLite.openDatabaseAsync('medscore.db');
+      console.log('数据库连接成功');
+      
       await this.createTables();
+      console.log('数据表创建/检查完成');
+      
       await this.migrateTables();
+      console.log('数据库迁移完成');
+      
+      this.isInitialized = true;
+      console.log('数据库初始化完成');
     } catch (error) {
       console.error('数据库初始化失败:', error);
+      this.isInitialized = false;
+      this.db = null;
       throw error;
+    }
+  }
+
+  // 检查数据库连接状态
+  private async ensureDatabase(): Promise<void> {
+    if (!this.isInitialized || !this.db) {
+      console.log('数据库未初始化，重新初始化...');
+      await this.init();
     }
   }
 
@@ -73,17 +97,18 @@ class Database {
       
       // 迁移数据
       for (const record of existingData) {
+        const typedRecord = record as any; // 临时类型断言
         await this.db.runAsync(
           `INSERT INTO scoring_records (id, patientName, patientId, scoreType, formData, scoreResult, createdAt, updatedAt)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-          record.id,
-          record.patientName,
-          record.patientId,
-          record.scoreType,
-          record.formData,
-          record.scoreResult,
-          record.createdAt,
-          record.updatedAt || record.createdAt // 如果没有 updatedAt，使用 createdAt
+          typedRecord.id,
+          typedRecord.patientName,
+          typedRecord.patientId,
+          typedRecord.scoreType,
+          typedRecord.formData,
+          typedRecord.scoreResult,
+          typedRecord.createdAt,
+          typedRecord.updatedAt || typedRecord.createdAt // 如果没有 updatedAt，使用 createdAt
         );
       }
       
@@ -99,6 +124,7 @@ class Database {
 
   // 插入评分记录
   async insertRecord(record: Omit<ScoringRecord, 'id' | 'createdAt'>): Promise<number> {
+    await this.ensureDatabase();
     if (!this.db) throw new Error('数据库未初始化');
 
     // 使用当前时间戳，确保时区正确
@@ -127,6 +153,7 @@ class Database {
 
   // 根据患者姓名或ID查询记录
   async searchRecords(query: string): Promise<ScoringRecord[]> {
+    await this.ensureDatabase();
     if (!this.db) throw new Error('数据库未初始化');
 
     const sql = `
@@ -146,6 +173,7 @@ class Database {
 
   // 获取患者的所有记录 - 修改为按患者ID和姓名组合查询
   async getPatientRecords(patientId: string, patientName?: string): Promise<ScoringRecord[]> {
+    await this.ensureDatabase();
     if (!this.db) throw new Error('数据库未初始化');
 
     let sql: string;
@@ -175,6 +203,7 @@ class Database {
 
   // 获取所有患者列表（用于搜索建议）
   async getAllPatients(): Promise<Array<{ patientName: string; patientId: string; recordCount: number }>> {
+    await this.ensureDatabase();
     if (!this.db) throw new Error('数据库未初始化');
 
     const sql = `
@@ -195,6 +224,7 @@ class Database {
 
   // 删除记录
   async deleteRecord(id: number): Promise<void> {
+    await this.ensureDatabase();
     if (!this.db) throw new Error('数据库未初始化');
 
     const sql = 'DELETE FROM scoring_records WHERE id = ?';
@@ -203,6 +233,7 @@ class Database {
 
   // 获取记录详情
   async getRecord(id: number): Promise<ScoringRecord | null> {
+    await this.ensureDatabase();
     if (!this.db) throw new Error('数据库未初始化');
 
     const sql = 'SELECT * FROM scoring_records WHERE id = ?';
@@ -212,6 +243,7 @@ class Database {
 
   // 更新记录
   async updateRecord(id: number, record: Partial<ScoringRecord>): Promise<void> {
+    await this.ensureDatabase();
     if (!this.db) throw new Error('数据库未初始化');
 
     const fields = [];

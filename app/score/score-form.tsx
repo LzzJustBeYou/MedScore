@@ -105,15 +105,74 @@ export default function ScoreFormScreen() {
     }));
   };
 
+  // 处理数字输入，根据字段类型区分整数和小数
+  const handleNumberInputChange = (fieldId: string, text: string, numberType: 'integer' | 'decimal' = 'decimal') => {
+    let filteredText: string;
+    
+    if (numberType === 'integer') {
+      // 整数：只允许数字和负号
+      filteredText = text.replace(/[^0-9-]/g, '');
+    } else {
+      // 小数：允许数字、小数点和负号
+      filteredText = text.replace(/[^0-9.-]/g, '');
+      
+      // 确保只有一个小数点
+      const parts = filteredText.split('.');
+      if (parts.length > 2) {
+        return; // 不允许多个小数点
+      }
+    }
+    
+    // 确保负号只在开头
+    if (filteredText.includes('-') && !filteredText.startsWith('-')) {
+      return;
+    }
+    
+    // 如果输入为空或只有负号，设置为空字符串
+    if (filteredText === '' || filteredText === '-') {
+      handleInputChange(fieldId, '');
+      return;
+    }
+    
+    // 对于小数输入，允许输入过程中的中间状态（如 "3." 或 "3.1"）
+    if (numberType === 'decimal') {
+      // 直接保存过滤后的文本，允许输入过程中的状态
+      handleInputChange(fieldId, filteredText);
+    } else {
+      // 整数：转换为数字
+      const numValue = parseInt(filteredText, 10);
+      if (!isNaN(numValue)) {
+        handleInputChange(fieldId, numValue);
+      } else {
+        handleInputChange(fieldId, filteredText);
+      }
+    }
+  };
+
   const handleSubmit = async () => {
     if (!config) return;
 
     // 隐藏键盘
     Keyboard.dismiss();
 
+    // 清理和转换数据
+    const cleanedFormData = { ...formData };
+    config.fields.forEach((field: any) => {
+      if (field.type === 'number' && cleanedFormData[field.id]) {
+        const value = cleanedFormData[field.id];
+        if (typeof value === 'string') {
+          // 如果是字符串，尝试转换为数字
+          const numValue = field.numberType === 'integer' ? parseInt(value, 10) : parseFloat(value);
+          if (!isNaN(numValue)) {
+            cleanedFormData[field.id] = numValue;
+          }
+        }
+      }
+    });
+
     // 验证必填字段
     const missingFields = config.fields.filter(
-      (field: any) => field.required && (!formData[field.id] || formData[field.id] === '')
+      (field: any) => field.required && (!cleanedFormData[field.id] || cleanedFormData[field.id] === '')
     );
 
     if (missingFields.length > 0) {
@@ -122,14 +181,14 @@ export default function ScoreFormScreen() {
     }
 
     // 计算评分
-    const result = ScoreCalculator.calculateScore(config, formData);
+    const result = ScoreCalculator.calculateScore(config, cleanedFormData);
     
     if (editMode === 'true' && recordId) {
       // 编辑模式：更新记录
       try {
         await database.init();
         await database.updateRecord(Number(recordId), {
-          formData: JSON.stringify(formData),
+          formData: JSON.stringify(cleanedFormData),
           scoreResult: `${result.result} (${result.score}分)`,
           updatedAt: new Date().toISOString()
         });
@@ -137,7 +196,11 @@ export default function ScoreFormScreen() {
         Alert.alert('成功', '记录已更新', [
           {
             text: '确定',
-            onPress: () => router.replace('/')
+            onPress: () => {
+              // 清空导航堆栈并跳转到首页
+              router.dismissAll();
+              router.replace('/(tabs)/records');
+            }
           }
         ]);
       } catch (error) {
@@ -152,7 +215,7 @@ export default function ScoreFormScreen() {
           score: result.score.toString(),
           result: result.result,
           description: result.description || '',
-          formData: JSON.stringify(formData),
+          formData: JSON.stringify(cleanedFormData),
           patientId: patientId || '',
           patientName: patientName || ''
         }
@@ -220,8 +283,17 @@ export default function ScoreFormScreen() {
               style={styles.input}
               placeholder={`请输入${field.label}`}
               value={value.toString()}
-              onChangeText={(text) => handleInputChange(field.id, field.type === 'number' ? Number(text) : text)}
-              keyboardType={field.type === 'number' ? 'numeric' : 'default'}
+              onChangeText={(text) => {
+                if (field.type === 'number') {
+                  const numberType = (field as any).numberType || 'decimal';
+                  handleNumberInputChange(field.id, text, numberType);
+                } else {
+                  handleInputChange(field.id, text);
+                }
+              }}
+              keyboardType={field.type === 'number' ? 
+                ((field as any).numberType === 'integer' ? 'numeric' : 'decimal-pad') : 
+                'default'}
               returnKeyType={textFieldIndex === config?.fields.filter((f: any) => f.type === 'text' || f.type === 'number').length - 1 ? 'done' : 'next'}
               onSubmitEditing={() => handleInputSubmit(textFieldIndex)}
               blurOnSubmit={false}

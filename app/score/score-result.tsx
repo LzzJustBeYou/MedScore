@@ -28,23 +28,33 @@ export default function ScoreResultScreen() {
     }
 
     try {
+      console.log('开始保存评分记录...');
       await database.init();
-      await database.insertRecord({
+      console.log('数据库初始化成功');
+      
+      const recordId = await database.insertRecord({
         patientName: patientName,
         patientId: patientId,
         scoreType,
         formData,
         scoreResult: `${result} (${score}分)`
       });
+      
+      console.log('评分记录保存成功，ID:', recordId);
 
       Alert.alert('成功', '评分记录已保存', [
         {
           text: '确定',
-          onPress: () => router.replace('/')
+          onPress: () => {
+            // 清空导航堆栈并跳转到首页
+            router.dismissAll();
+            router.replace('/(tabs)/records');
+          }
         }
       ]);
     } catch (error) {
-      Alert.alert('错误', '保存失败');
+      console.error('保存评分记录失败:', error);
+      Alert.alert('错误', `保存失败: ${error}`);
     }
   };
 

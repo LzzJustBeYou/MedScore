@@ -1,21 +1,28 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
 
 export default function PatientInfoScreen() {
   const { scoreType } = useLocalSearchParams<{ scoreType: string }>();
   const [patientName, setPatientName] = useState('');
   const [patientId, setPatientId] = useState('');
+
+  // 处理患者ID输入，只允许数字和英文字母
+  const handlePatientIdChange = (text: string) => {
+    // 只保留数字和英文字母
+    const filteredText = text.replace(/[^a-zA-Z0-9]/g, '');
+    setPatientId(filteredText);
+  };
 
   const handleContinue = () => {
     if (!patientName.trim()) {
@@ -69,8 +76,8 @@ export default function PatientInfoScreen() {
               <TextInput
                 style={styles.input}
                 value={patientId}
-                onChangeText={setPatientId}
-                placeholder="请输入患者ID"
+                onChangeText={handlePatientIdChange}
+                placeholder="请输入患者ID（仅限数字和英文字母）"
                 placeholderTextColor="#999"
                 autoCapitalize="none"
                 autoCorrect={false}

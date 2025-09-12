@@ -1,15 +1,15 @@
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    ActivityIndicator,
-    Alert,
-    FlatList,
-    Keyboard,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  Keyboard,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { SearchResult } from '../types';
 import { database } from '../utils/database';
@@ -23,11 +23,23 @@ export default function HomeScreen() {
     initDatabase();
   }, []);
 
+  useEffect(() => {
+    // 数据库初始化完成后，自动导航到tabs
+    const timer = setTimeout(() => {
+      router.replace('/(tabs)/score');
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   const initDatabase = async () => {
     try {
+      console.log('首页：开始初始化数据库...');
       await database.init();
+      console.log('首页：数据库初始化成功');
     } catch (error) {
-      Alert.alert('错误', '数据库初始化失败');
+      console.error('首页：数据库初始化失败:', error);
+      Alert.alert('错误', `数据库初始化失败: ${error}`);
     }
   };
 
@@ -43,7 +55,10 @@ export default function HomeScreen() {
 
     setIsLoading(true);
     try {
+      console.log('开始搜索:', searchQuery);
       const results = await database.searchRecords(searchQuery);
+      console.log('搜索结果:', results.length, '条记录');
+      
       const patientMap = new Map<string, SearchResult>();
 
       results.forEach(record => {
@@ -63,9 +78,12 @@ export default function HomeScreen() {
         }
       });
 
-      setSearchResults(Array.from(patientMap.values()));
+      const searchResults = Array.from(patientMap.values());
+      console.log('处理后的搜索结果:', searchResults.length, '个患者');
+      setSearchResults(searchResults);
     } catch (error) {
-      Alert.alert('错误', '搜索失败');
+      console.error('搜索失败:', error);
+      Alert.alert('错误', `搜索失败: ${error}`);
     } finally {
       setIsLoading(false);
     }

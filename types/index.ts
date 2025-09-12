@@ -15,6 +15,7 @@ export interface FormField {
   id: string;
   label: string;
   type: 'text' | 'number' | 'select' | 'radio' | 'checkbox';
+  numberType?: 'integer' | 'decimal'; // 数字类型：整数或小数
   required?: boolean;
   unit?: string; // 添加单位字段
   options?: Array<{

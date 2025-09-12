@@ -53,8 +53,6 @@ export default function ScoreTypesScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>选择评分系统</Text>
-        
         <FlatList
           data={scoreConfigs}
           keyExtractor={(item) => item.id}

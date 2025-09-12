@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, RefreshControl, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { avatarStyles, cardStyles, fontSizes, spacing } from '../../constants/CardStyles';
 import { database } from '../../utils/database';
 
 interface PatientRecord {
@@ -242,26 +243,26 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#FFFFFF',
-    padding: 24,
+    padding: spacing.xxl,
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#E5E5EA',
   },
   title: {
-    fontSize: 28,
+    fontSize: fontSizes.xxxl,
     fontWeight: 'bold',
     color: '#1C1C1E',
-    marginBottom: 8,
+    marginBottom: spacing.sm,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: fontSizes.md,
     color: '#8E8E93',
     textAlign: 'center',
   },
   searchContainer: {
     backgroundColor: '#FFFFFF',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
     borderBottomWidth: 1,
     borderBottomColor: '#E5E5EA',
   },
@@ -270,74 +271,63 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F2F2F7',
     borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
   },
   searchInput: {
     flex: 1,
-    marginLeft: 8,
-    fontSize: 16,
+    marginLeft: spacing.sm,
+    fontSize: fontSizes.md,
     color: '#1C1C1E',
   },
   list: {
     flex: 1,
-    paddingHorizontal: 16,
+    paddingHorizontal: spacing.lg,
     backgroundColor: '#F2F2F7',
   },
   patientItem: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    marginVertical: 6,
+    ...cardStyles.listItem,
+    padding: spacing.lg,
+    marginVertical: spacing.xs,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
   },
   patientAvatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    ...avatarStyles.medium,
     backgroundColor: '#F0F8FF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 16,
+    marginRight: spacing.lg,
   },
   patientInfo: {
     flex: 1,
   },
   patientName: {
-    fontSize: 16,
+    fontSize: fontSizes.md,
     fontWeight: '600',
     color: '#1C1C1E',
-    marginBottom: 4,
+    marginBottom: spacing.xs,
   },
   patientId: {
-    fontSize: 14,
+    fontSize: fontSizes.sm,
     color: '#8E8E93',
     marginBottom: 2,
   },
   lastScoreDate: {
-    fontSize: 12,
+    fontSize: fontSizes.xs,
     color: '#8E8E93',
   },
   patientStats: {
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   recordCount: {
-    fontSize: 18,
+    fontSize: fontSizes.lg,
     fontWeight: 'bold',
     color: '#007AFF',
   },
   recordLabel: {
-    fontSize: 12,
+    fontSize: fontSizes.xs,
     color: '#8E8E93',
   },
   patientActions: {

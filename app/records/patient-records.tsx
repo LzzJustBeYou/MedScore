@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { badgeStyles, cardStyles, fontSizes, spacing } from '../../constants/CardStyles';
 import { ScoringRecord } from '../../types';
 import { database } from '../../utils/database';
 import { formatDateTime } from '../../utils/dateUtils';
@@ -210,60 +211,54 @@ export default function PatientRecordsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#F8F9FA',
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#F8F9FA',
   },
   loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: '#666',
+    marginTop: spacing.md,
+    fontSize: fontSizes.md,
+    color: '#8E8E93',
   },
   
   // 极简头部设计
   headerContainer: {
-    paddingTop: 16,
-    paddingHorizontal: 16,
-    paddingBottom: 12,
-    backgroundColor: '#f8f9fa',
+    paddingTop: spacing.lg,
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.md,
+    backgroundColor: '#F8F9FA',
   },
   patientCard: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.04,
-    shadowRadius: 4,
-    elevation: 2,
+    ...cardStyles.listItem,
+    padding: spacing.lg,
   },
   patientName: {
-    fontSize: 20,
+    fontSize: fontSizes.xl,
     fontWeight: '600',
-    color: '#1a1a1a',
-    marginBottom: 8,
+    color: '#1C1C1E',
+    marginBottom: spacing.sm,
   },
   patientMeta: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   patientId: {
-    fontSize: 13,
-    color: '#666',
+    fontSize: fontSizes.xs,
+    color: '#8E8E93',
     fontWeight: '500',
   },
   divider: {
     width: 1,
-    height: 12,
-    backgroundColor: '#e0e0e0',
-    marginHorizontal: 12,
+    height: spacing.md,
+    backgroundColor: '#E5E5EA',
+    marginHorizontal: spacing.md,
   },
   recordCount: {
-    fontSize: 13,
+    fontSize: fontSizes.xs,
     color: '#007AFF',
     fontWeight: '600',
   },
@@ -273,8 +268,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   recordsListContent: {
-    paddingHorizontal: 16,
-    paddingBottom: 20,
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.xl,
   },
   emptyListContainer: {
     flex: 1,
@@ -282,84 +277,64 @@ const styles = StyleSheet.create({
   
   // 重新设计的记录卡片 - 移除冗余ID信息
   recordItem: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    marginBottom: 12,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 3,
+    ...cardStyles.standard,
+    marginBottom: spacing.md,
+    padding: spacing.lg,
     borderWidth: 1,
-    borderColor: '#f0f0f0',
+    borderColor: '#F0F0F0',
   },
   recordHeader: {
-    marginBottom: 16, // 增加底部间距
+    marginBottom: spacing.lg,
   },
   scoreInfo: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 8,
+    marginBottom: spacing.sm,
   },
   scoreType: {
-    fontSize: 16,
+    fontSize: fontSizes.md,
     fontWeight: '600',
-    color: '#1a1a1a',
+    color: '#1C1C1E',
     flex: 1,
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   scoreBadge: {
-    backgroundColor: '#34C759',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-    alignItems: 'center',
+    ...badgeStyles.success,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
   },
   scoreBadgeText: {
-    fontSize: 12,
-    color: 'white',
+    fontSize: fontSizes.sm,
+    color: '#34C759',
     fontWeight: '600',
   },
   createdAt: {
-    fontSize: 11,
-    color: '#999',
-    textAlign: 'left',
+    fontSize: fontSizes.sm,
+    color: '#8E8E93',
+    marginBottom: spacing.sm,
   },
-  // 移除 recordContent 和 recordId 样式
   recordActions: {
     flexDirection: 'row',
-    gap: 8,
+    justifyContent: 'flex-end',
+    gap: spacing.sm,
   },
   viewButton: {
-    flex: 1,
-    backgroundColor: '#007AFF',
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: 'center',
+    backgroundColor: '#F0F8FF',
   },
   viewButtonText: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: fontSizes.xs,
+    color: '#007AFF',
+    fontWeight: '500',
   },
   deleteButton: {
-    flex: 1,
-    backgroundColor: '#FF3B30',
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: 'center',
+    backgroundColor: '#F8D7DA',
   },
   deleteButtonText: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: fontSizes.xs,
+    color: '#FF3B30',
+    fontWeight: '500',
   },
-
-  // 空状态
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -390,8 +365,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-
-  // 底部新增记录按钮
   bottomButtonContainer: {
     paddingHorizontal: 16,
     paddingVertical: 16,

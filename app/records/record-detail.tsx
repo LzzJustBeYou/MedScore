@@ -9,6 +9,7 @@ import {
   View
 } from 'react-native';
 import { getScoreConfig } from '../../configs/scoreConfigs';
+import { badgeStyles, cardStyles, fontSizes, spacing } from '../../constants/CardStyles';
 import { database } from '../../utils/database';
 import { formatDateTime } from '../../utils/dateUtils';
 
@@ -279,43 +280,41 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: fontSizes.lg,
     fontWeight: '600',
-    color: '#1d1d1f',
-    marginBottom: 12,
-    paddingHorizontal: 4,
+    color: '#1C1C1E',
+    marginBottom: spacing.md,
+    paddingHorizontal: spacing.xs,
   },
   infoCard: {
-    backgroundColor: 'white',
-    borderRadius: 12,
+    ...cardStyles.standard,
     overflow: 'hidden',
   },
   infoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#e5e5e7',
+    borderBottomColor: '#E5E5E7',
   },
   infoLabel: {
-    fontSize: 15,
-    color: '#6e6e73',
+    fontSize: fontSizes.sm,
+    color: '#8E8E93',
     fontWeight: '400',
   },
   infoValue: {
-    fontSize: 15,
-    color: '#1d1d1f',
+    fontSize: fontSizes.sm,
+    color: '#1C1C1E',
     fontWeight: '400',
     textAlign: 'right',
     flex: 1,
-    marginLeft: 16,
+    marginLeft: spacing.lg,
   },
   scoreCard: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 16,
+    ...cardStyles.standard,
+    padding: spacing.lg,
   },
   scoreHeader: {
     flexDirection: 'row',
@@ -323,24 +322,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   scoreType: {
-    fontSize: 16,
+    fontSize: fontSizes.md,
     fontWeight: '600',
-    color: '#1d1d1f',
+    color: '#1C1C1E',
   },
   scoreResultBadge: {
-    backgroundColor: '#34c759',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
+    ...badgeStyles.success,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
   },
   scoreResultText: {
-    fontSize: 14,
+    fontSize: fontSizes.sm,
     color: 'white',
     fontWeight: '600',
   },
   formCard: {
-    backgroundColor: 'white',
-    borderRadius: 12,
+    ...cardStyles.standard,
     overflow: 'hidden',
   },
   formField: {

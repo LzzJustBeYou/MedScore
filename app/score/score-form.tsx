@@ -17,6 +17,7 @@ import {
   View
 } from 'react-native';
 import { getScoreConfig } from '../../configs/scoreConfigs';
+import { cardStyles, fontSizes, spacing } from '../../constants/CardStyles';
 import { FormData } from '../../types';
 import { database } from '../../utils/database';
 import { ScoreCalculator } from '../../utils/scoreCalculator';
@@ -612,45 +613,36 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: 'white',
-    borderRadius: 16,
+    ...cardStyles.modal,
     width: '90%',
     maxWidth: 400,
     maxHeight: '70%',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 20,
-    elevation: 10,
   },
   modalHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    padding: spacing.xl,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: '#F0F0F0',
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: fontSizes.lg,
     fontWeight: '600',
-    color: '#333',
+    color: '#1C1C1E',
     flex: 1,
   },
   modalCloseButton: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#F5F5F5',
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalCloseText: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: fontSizes.md,
+    color: '#8E8E93',
     fontWeight: 'bold',
   },
   modalOptions: {

@@ -8,6 +8,7 @@ import {
   View
 } from 'react-native';
 import { scoreConfigs } from '../../configs/scoreConfigs';
+import { cardStyles, fontSizes, spacing } from '../../constants/CardStyles';
 
 export default function ScoreTypesScreen() {
   const { patientId, patientName } = useLocalSearchParams<{
@@ -39,8 +40,9 @@ export default function ScoreTypesScreen() {
 
   const renderScoreType = ({ item }: { item: typeof scoreConfigs[0] }) => (
     <TouchableOpacity
-      style={styles.scoreTypeItem}
+      style={[cardStyles.standard, styles.scoreTypeItem]}
       onPress={() => handleScoreTypeSelect(item.id)}
+      activeOpacity={0.7}
     >
       <Text style={styles.scoreTypeName}>{item.name}</Text>
       <Text style={styles.scoreTypeDescription}>{item.description}</Text>
@@ -59,6 +61,7 @@ export default function ScoreTypesScreen() {
           renderItem={renderScoreType}
           style={styles.list}
           showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.listContent}
         />
       </View>
     </View>
@@ -68,75 +71,77 @@ export default function ScoreTypesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#F2F2F7',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
     backgroundColor: 'white',
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    borderBottomColor: '#E5E5EA',
   },
   backButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
   },
   backButtonText: {
-    fontSize: 16,
+    fontSize: fontSizes.md,
     color: '#007AFF',
     fontWeight: '500',
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: fontSizes.lg,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#1C1C1E',
   },
   placeholder: {
     width: 60,
   },
   content: {
     flex: 1,
-    padding: 20,
+    padding: spacing.xl,
   },
   title: {
-    fontSize: 24,
+    fontSize: fontSizes.xxl,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 30,
-    color: '#333',
+    marginBottom: spacing.xxxl,
+    color: '#1C1C1E',
   },
   list: {
     flex: 1,
   },
+  listContent: {
+    paddingBottom: spacing.xl,
+  },
   scoreTypeItem: {
-    backgroundColor: 'white',
-    padding: 20,
-    marginBottom: 15,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    padding: spacing.xl,
+    marginBottom: spacing.lg,
   },
   scoreTypeName: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 8,
+    fontSize: fontSizes.xl,
+    fontWeight: '600',
+    color: '#1C1C1E',
+    marginBottom: spacing.sm,
+    lineHeight: 28,
   },
   scoreTypeDescription: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
+    fontSize: fontSizes.sm,
+    color: '#8E8E93',
+    marginBottom: spacing.sm,
     lineHeight: 20,
   },
   fieldCount: {
-    fontSize: 12,
+    fontSize: fontSizes.xs,
     color: '#007AFF',
     fontWeight: '500',
+    backgroundColor: '#F0F8FF',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: 6,
+    alignSelf: 'flex-start',
   },
 });

@@ -5,6 +5,7 @@ import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scoreConfigs } from '../../configs/scoreConfigs';
+import { badgeStyles, cardStyles, fontSizes, spacing } from '../../constants/CardStyles';
 
 export default function ScoreScreen() {
   const insets = useSafeAreaInsets();
@@ -68,19 +69,19 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#FFFFFF',
-    padding: 24,
+    padding: spacing.xxl,
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#E5E5EA',
   },
   title: {
-    fontSize: 28,
+    fontSize: fontSizes.xxxl,
     fontWeight: 'bold',
     color: '#1C1C1E',
-    marginBottom: 8,
+    marginBottom: spacing.sm,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: fontSizes.md,
     color: '#8E8E93',
     textAlign: 'center',
   },
@@ -88,32 +89,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listContent: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 20,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.xl,
     backgroundColor: '#F2F2F7',
     flexGrow: 1,
   },
   scoreTypeItem: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 4,
+    ...cardStyles.standard,
+    padding: spacing.lg,
+    marginBottom: spacing.lg,
     borderWidth: 1,
     borderColor: '#F0F0F0',
   },
   scoreTypeHeader: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   scoreTypeIcon: {
     width: 44,
@@ -122,36 +114,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F8FF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: spacing.md,
     marginTop: 2,
   },
   scoreTypeInfo: {
     flex: 1,
   },
   scoreTypeName: {
-    fontSize: 18,
+    fontSize: fontSizes.lg,
     fontWeight: '600',
     color: '#1C1C1E',
-    marginBottom: 6,
+    marginBottom: spacing.xs,
     lineHeight: 24,
   },
   scoreTypeDescription: {
-    fontSize: 14,
+    fontSize: fontSizes.sm,
     color: '#8E8E93',
     lineHeight: 20,
-    marginBottom: 4,
+    marginBottom: spacing.xs,
   },
   scoreTypeFooter: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
   fieldCount: {
-    fontSize: 13,
+    ...badgeStyles.primary,
+    fontSize: fontSizes.xs,
     color: '#007AFF',
     fontWeight: '500',
-    backgroundColor: '#F0F8FF',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
   },
 });

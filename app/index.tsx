@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { buttonStyles, cardStyles, fontSizes, spacing } from '../constants/CardStyles';
 import { SearchResult } from '../types';
 import { database } from '../utils/database';
 
@@ -181,52 +182,49 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f5f5f5',
+    padding: spacing.xl,
+    backgroundColor: '#F2F2F7',
   },
   title: {
-    fontSize: 24,
+    fontSize: fontSizes.xxl,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 30,
-    color: '#333',
+    marginBottom: spacing.xxxl,
+    color: '#1C1C1E',
   },
   searchContainer: {
-    marginBottom: 20,
+    marginBottom: spacing.xl,
   },
   searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: spacing.md,
   },
   searchInput: {
     flex: 1,
     height: 50,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#E5E5EA',
     borderRadius: 8,
-    paddingHorizontal: 15,
+    paddingHorizontal: spacing.lg,
     backgroundColor: 'white',
-    fontSize: 16,
+    fontSize: fontSizes.md,
+    color: '#1C1C1E',
   },
   searchButton: {
-    backgroundColor: '#007AFF',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 8,
+    ...buttonStyles.primary,
     minWidth: 80,
-    alignItems: 'center',
   },
   searchButtonDisabled: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#C7C7CC',
   },
   searchButtonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: fontSizes.md,
     fontWeight: '600',
   },
   searchButtonTextDisabled: {
-    color: '#999',
+    color: '#8E8E93',
   },
   loading: {
     marginTop: 50,
@@ -235,55 +233,47 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   resultItem: {
-    backgroundColor: 'white',
-    padding: 15,
-    marginBottom: 10,
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    ...cardStyles.standard,
+    padding: spacing.lg,
+    marginBottom: spacing.md,
   },
   resultContent: {
     flex: 1,
   },
   patientName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 5,
+    fontSize: fontSizes.lg,
+    fontWeight: '600',
+    color: '#1C1C1E',
+    marginBottom: spacing.xs,
   },
   patientId: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 5,
+    fontSize: fontSizes.sm,
+    color: '#8E8E93',
+    marginBottom: spacing.xs,
   },
   recordCount: {
-    fontSize: 14,
+    fontSize: fontSizes.sm,
     color: '#007AFF',
-    marginBottom: 3,
+    marginBottom: spacing.xs,
   },
   lastRecord: {
-    fontSize: 12,
-    color: '#999',
+    fontSize: fontSizes.xs,
+    color: '#8E8E93',
   },
   emptyText: {
     textAlign: 'center',
-    color: '#999',
+    color: '#8E8E93',
     marginTop: 50,
-    fontSize: 16,
+    fontSize: fontSizes.md,
   },
   newRecordButton: {
-    backgroundColor: '#34C759',
-    paddingVertical: 15,
-    borderRadius: 8,
-    marginTop: 20,
+    ...buttonStyles.success,
+    marginTop: spacing.xl,
   },
   newRecordButtonText: {
     color: 'white',
     textAlign: 'center',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: fontSizes.md,
+    fontWeight: '600',
   },
 });

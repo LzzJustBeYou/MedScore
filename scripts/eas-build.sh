@@ -105,13 +105,11 @@ if [[ -n "${VERSION}" || -n "${ANDROID_VERSION_CODE}" || -n "${IOS_BUILD_NUMBER}
   echo "✅ 已更新 ${APP_JSON}"
 fi
 
-echo "🚀 开始 EAS 构建：platform=${PLATFORM}, profile=${PROFILE}"
-# 非交互，避免卡输入
-eas build -p "$PLATFORM" --profile "$PROFILE" --non-interactive
+echo "🚀 开始 EAS 构建：platform=${PLATFORM}, profile=${PROFILE}（清除缓存）"
+eas build -p "$PLATFORM" --profile "$PROFILE" --non-interactive --clear-cache
 
 echo "⏬ 下载最新构建产物到：${DOWNLOAD_DIR}"
-# 下载最新产物
-eas build:download -p "$PLATFORM" --profile "$PROFILE" --latest --output "$DOWNLOAD_DIR"
+eas build:download --latest --output "$DOWNLOAD_DIR"
 
 echo "✅ 构建产物已下载完成："
 ls -lh "$DOWNLOAD_DIR" | sed -n '1,10p'

@@ -7,7 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "medscore",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": false,
+    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.MedScore"
@@ -32,15 +32,14 @@
         }
       ]
     ],
+    "experiments": {
+      "typedRoutes": true
+    },
     "extra": {
       "router": {},
       "eas": {
         "projectId": "32d290b9-3ed9-4041-8348-c2df9c64797e"
       }
-    },
-    "runtimeVersion": "1.0.0",
-    "updates": {
-      "url": "https://u.expo.dev/32d290b9-3ed9-4041-8348-c2df9c64797e"
     }
   }
 }

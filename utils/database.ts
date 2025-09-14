@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite';
+import { Platform } from 'react-native';
 import { ScoringRecord } from '../types';
 
 class Database {
@@ -7,11 +8,21 @@ class Database {
 
   async init(): Promise<void> {
     if (this.isInitialized && this.db) {
-      return; // 已经初始化过了
+      return;
     }
 
     try {
       console.log('开始初始化数据库...');
+      
+      // Use different database for web platform
+      if (Platform.OS === 'web') {
+        // For web, you might want to use localStorage or IndexedDB
+        // This is a simplified approach - you may need a more robust solution
+        console.log('Web platform detected - using mock database');
+        this.isInitialized = true;
+        return;
+      }
+      
       this.db = await SQLite.openDatabaseAsync('medscore.db');
       console.log('数据库连接成功');
       

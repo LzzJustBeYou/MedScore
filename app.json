@@ -20,11 +20,6 @@
       "edgeToEdgeEnabled": true,
       "package": "com.anonymous.MedScore"
     },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
     "plugins": [
       "expo-router",
       [

@@ -18,7 +18,8 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.MedScore"
+      "package": "com.anonymous.MedScore",
+      "runtimeVersion": "1.0.0"
     },
     "plugins": [
       "expo-router",
@@ -30,7 +31,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-updates"
     ],
     "experiments": {
       "typedRoutes": true
@@ -40,6 +42,10 @@
       "eas": {
         "projectId": "32d290b9-3ed9-4041-8348-c2df9c64797e"
       }
-    }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/32d290b9-3ed9-4041-8348-c2df9c64797e"
+    },
+    "runtimeVersion": "1.0.0"
   }
 }

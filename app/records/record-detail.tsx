@@ -9,7 +9,7 @@ import {
   View
 } from 'react-native';
 import { getScoreConfig } from '../../configs/scoreConfigs';
-import { badgeStyles, cardStyles, fontSizes, spacing } from '../../constants/CardStyles';
+import { cardStyles, fontSizes, spacing } from '../../constants/CardStyles';
 import { database } from '../../utils/database';
 import { formatDateTime } from '../../utils/dateUtils';
 
@@ -327,7 +327,8 @@ const styles = StyleSheet.create({
     color: '#1C1C1E',
   },
   scoreResultBadge: {
-    ...badgeStyles.success,
+    backgroundColor: '#34C759', // 使用更深的绿色背景
+    borderRadius: 8,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs,
   },

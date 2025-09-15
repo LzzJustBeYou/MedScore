@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, RefreshControl, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { avatarStyles, cardStyles, fontSizes, spacing } from '../../constants/CardStyles';
+import { cardStyles, fontSizes, spacing } from '../../constants/CardStyles';
 import { database } from '../../utils/database';
 
 interface PatientRecord {
@@ -150,26 +150,42 @@ export default function RecordsScreen() {
 
   const renderPatientItem = ({ item }: { item: PatientRecord }) => (
     <TouchableOpacity style={styles.patientItem} onPress={() => handlePatientPress(item)}>
-      <View style={styles.patientAvatar}>
-        <Ionicons name="person" size={24} color="#007AFF" />
+      <View style={styles.patientContent}>
+        {/* 患者姓名 */}
+        <View style={styles.patientNameRow}>
+          <Text style={styles.patientName} numberOfLines={1}>{item.name}</Text>
+        </View>
+        
+        {/* 记录数单独一行 */}
+        <View style={styles.recordInfoRow}>
+          <Ionicons name="document-text-outline" size={16} color="#8E8E93" />
+          <Text style={styles.recordCountText}>{item.totalRecords} 条记录</Text>
+        </View>
+        
+        {/* 详细信息区域 */}
+        <View style={styles.patientDetails}>
+          <View style={styles.detailRow}>
+            <Ionicons name="person-outline" size={14} color="#8E8E93" />
+            <Text style={styles.detailLabel}>患者ID</Text>
+            <Text style={styles.detailValue} numberOfLines={1}>{item.patientId}</Text>
+          </View>
+          <View style={styles.detailRow}>
+            <Ionicons name="time-outline" size={14} color="#8E8E93" />
+            <Text style={styles.detailLabel}>最新评分</Text>
+            <Text style={styles.detailValue} numberOfLines={1}>
+              {formatDate(item.lastScoreDate)}
+            </Text>
+          </View>
+        </View>
       </View>
-      <View style={styles.patientInfo}>
-        <Text style={styles.patientName}>{item.name}</Text>
-        <Text style={styles.patientId}>ID: {item.patientId}</Text>
-        <Text style={styles.lastScoreDate}>
-          最新评分: {formatDate(item.lastScoreDate)}
-        </Text>
-      </View>
-      <View style={styles.patientStats}>
-        <Text style={styles.recordCount}>{item.totalRecords}</Text>
-        <Text style={styles.recordLabel}>条记录</Text>
-      </View>
+      
+      {/* 操作区域 */}
       <View style={styles.patientActions}>
         <TouchableOpacity
           style={styles.deleteButton}
           onPress={() => handleDeletePatient(item)}
         >
-          <Ionicons name="trash" size={18} color="#FF3B30" />
+          <Ionicons name="trash-outline" size={18} color="#FF3B30" />
         </TouchableOpacity>
         <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
       </View>
@@ -283,60 +299,75 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
     backgroundColor: '#F2F2F7',
   },
   patientItem: {
-    ...cardStyles.listItem,
-    padding: spacing.lg,
-    marginVertical: spacing.xs,
+    ...cardStyles.standard,
     flexDirection: 'row',
     alignItems: 'center',
+    padding: spacing.lg,
+    marginBottom: spacing.sm,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E5E5EA',
   },
-  patientAvatar: {
-    ...avatarStyles.medium,
-    backgroundColor: '#F0F8FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: spacing.lg,
-  },
-  patientInfo: {
+  patientContent: {
     flex: 1,
-  },
-  patientName: {
-    fontSize: fontSizes.md,
-    fontWeight: '600',
-    color: '#1C1C1E',
-    marginBottom: spacing.xs,
-  },
-  patientId: {
-    fontSize: fontSizes.sm,
-    color: '#8E8E93',
-    marginBottom: 2,
-  },
-  lastScoreDate: {
-    fontSize: fontSizes.xs,
-    color: '#8E8E93',
-  },
-  patientStats: {
-    alignItems: 'center',
     marginRight: spacing.md,
   },
-  recordCount: {
-    fontSize: fontSizes.lg,
-    fontWeight: 'bold',
-    color: '#007AFF',
+  patientNameRow: {
+    marginBottom: spacing.xs,
   },
-  recordLabel: {
-    fontSize: fontSizes.xs,
+  patientName: {
+    fontSize: fontSizes.lg,
+    fontWeight: '600',
+    color: '#1C1C1E',
+  },
+  recordInfoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginBottom: spacing.sm,
+  },
+  recordCountText: {
+    fontSize: fontSizes.sm,
     color: '#8E8E93',
+    fontWeight: '500',
+  },
+  patientDetails: {
+    gap: spacing.xs,
+  },
+  detailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+  },
+  detailLabel: {
+    fontSize: fontSizes.sm,
+    color: '#8E8E93',
+    fontWeight: '500',
+    minWidth: 60,
+  },
+  detailValue: {
+    fontSize: fontSizes.sm,
+    color: '#1C1C1E',
+    flex: 1,
+    fontWeight: '500',
   },
   patientActions: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: spacing.sm,
   },
   deleteButton: {
-    padding: 8,
-    marginRight: 8,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 0,
   },
   emptyState: {
     flex: 1,
@@ -370,3 +401,4 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
+

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { badgeStyles, cardStyles, fontSizes, spacing } from '../../constants/CardStyles';
 import { ScoringRecord } from '../../types';
 import { database } from '../../utils/database';
@@ -132,12 +133,14 @@ export default function PatientRecordsScreen() {
           style={styles.viewButton}
           onPress={() => handleViewRecord(item)}
         >
-          <Text style={styles.viewButtonText}>查看详情</Text>
+          <Ionicons name="eye" size={16} color="#FFFFFF" />
+          <Text style={styles.viewButtonText}>查看</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.deleteButton}
           onPress={() => handleDeleteRecord(item.id!)}
         >
+          <Ionicons name="trash" size={16} color="#FFFFFF" />
           <Text style={styles.deleteButtonText}>删除</Text>
         </TouchableOpacity>
       </View>
@@ -320,20 +323,42 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   viewButton: {
-    backgroundColor: '#F0F8FF',
+    backgroundColor: '#007AFF',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: '#007AFF',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 2,
   },
   viewButtonText: {
-    fontSize: fontSizes.xs,
-    color: '#007AFF',
-    fontWeight: '500',
+    fontSize: fontSizes.sm,
+    color: '#FFFFFF',
+    fontWeight: '600',
+    marginLeft: 4,
   },
   deleteButton: {
-    backgroundColor: '#F8D7DA',
+    backgroundColor: '#FF3B30',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: '#FF3B30',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 2,
   },
   deleteButtonText: {
-    fontSize: fontSizes.xs,
-    color: '#FF3B30',
-    fontWeight: '500',
+    fontSize: fontSizes.sm,
+    color: '#FFFFFF',
+    fontWeight: '600',
+    marginLeft: 4,
   },
   emptyContainer: {
     flex: 1,

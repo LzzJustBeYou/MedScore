@@ -1,3 +1,4 @@
+import NetInfo from '@react-native-community/netinfo';
 import { router } from 'expo-router';
 import * as Updates from 'expo-updates';
 import { useEffect, useState } from 'react';
@@ -76,14 +77,27 @@ export default function HomeScreen() {
     }
   };
 
-  // 更新检查函数
+  // 更新检查函数 - 添加超时和网络检测
   const checkForUpdates = async () => {
     try {
       setIsCheckingUpdate(true);
       setUpdateStatus('checking');
       setUpdateInfo('正在检查更新...');
       
-      const update = await Updates.checkForUpdateAsync();
+      // 检查网络连接
+      const netInfo = await NetInfo.fetch();
+      if (!netInfo.isConnected) {
+        throw new Error('网络连接不可用');
+      }
+      
+      // 设置超时机制
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('更新检查超时')), 10000); // 10秒超时
+      });
+      
+      const updatePromise = Updates.checkForUpdateAsync();
+      
+      const update = await Promise.race([updatePromise, timeoutPromise]) as any;
       
       if (update.isAvailable) {
         setUpdateStatus('ready');
@@ -120,17 +134,39 @@ export default function HomeScreen() {
         }, 1000);
       }
     } catch (error) {
+      console.error('更新检查失败:', error);
       setUpdateStatus('error');
-      setUpdateInfo('更新检查失败，继续启动应用...');
-      setTimeout(() => {
-        router.replace('/(tabs)/score');
-      }, 2000);
+      
+      // 根据错误类型显示不同的提示
+      if (error.message === '网络连接不可用') {
+        setUpdateInfo('网络连接不可用，请检查网络设置');
+      } else if (error.message === '更新检查超时') {
+        setUpdateInfo('更新检查超时，可能是网络问题');
+      } else {
+        setUpdateInfo('更新检查失败，继续启动应用...');
+      }
+      
+      // 显示错误提示并继续启动应用
+      Alert.alert(
+        '更新检查失败',
+        '无法检查更新，将使用当前版本继续运行。\n\n如果问题持续存在，请检查网络连接。',
+        [
+          {
+            text: '确定',
+            onPress: () => {
+              setTimeout(() => {
+                router.replace('/(tabs)/score');
+              }, 1000);
+            }
+          }
+        ]
+      );
     } finally {
       setIsCheckingUpdate(false);
     }
   };
 
-  // 下载更新函数
+  // 下载更新函数 - 添加超时机制
   const downloadUpdate = async () => {
     try {
       setUpdateStatus('downloading');
@@ -147,7 +183,14 @@ export default function HomeScreen() {
         });
       }, 200);
       
-      await Updates.fetchUpdateAsync();
+      // 设置下载超时
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('下载超时')), 30000); // 30秒超时
+      });
+      
+      const downloadPromise = Updates.fetchUpdateAsync();
+      
+      await Promise.race([downloadPromise, timeoutPromise]);
       
       clearInterval(progressInterval);
       setUpdateProgress(100);
@@ -167,11 +210,12 @@ export default function HomeScreen() {
         ]
       );
     } catch (updateError) {
+      console.error('更新下载失败:', updateError);
       setUpdateStatus('error');
       setUpdateInfo('更新下载失败，继续使用当前版本...');
       Alert.alert(
         '更新失败',
-        '网络连接异常，将使用当前版本继续运行。',
+        '网络连接异常或下载超时，将使用当前版本继续运行。',
         [{ text: '确定' }]
       );
       setTimeout(() => {
